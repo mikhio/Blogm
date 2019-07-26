@@ -1,0 +1,73 @@
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.post-card {
+    margin: 20px 30px;
+}
+
+.form-control:hover {
+    border-color: #017bff;
+    color: #017bff;
+}
+
+.form-control:hover::-webkit-input-placeholder {
+    color: #017bff;
+}
+
+.form-control:focus::-webkit-input-placeholder {
+    color: #017bff;
+}
+
+.form-control {
+    color: #6d757d;
+}
+
+.form-control:focus {
+    color: #017bff;
+    outline: none;
+    box-shadow: none;
+}
+
+.error {
+    text-align: center;
+}
+
+.PostDetail {
+    margin-left: 10px;
+}
+
+.Create {
+    margin: 50px auto;
+    width: 400px;
+}
+
+.tit-feild {
+    margin-bottom: 20px;
+}
+
+.bod-feild {
+    margin-bottom: 10px;
+    height: 100px;
+}
+
+.no-posts {
+    text-align: center;
+    color: #aaa;
+    margin-top: 70px;
+}
+
+.delete-btn {
+    float: right;
+}
+
+.post-title {
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+.post-body {
+    text-align: center;
+}
