@@ -6,10 +6,6 @@ var bodyParser = require('body-parser');
 const app = express();
 const port = 5000;
 
-var idChange = '';
-
-
-
 console.log(`Server has ${port} port.`);
 
 app.use(express.static(path.join(__dirname, 'react-in-node', 'build')));
