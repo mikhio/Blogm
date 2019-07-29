@@ -1,46 +1,12 @@
-.btn:focus {
-    outline: none;
-    box-shadow: none;
-}
+/* All */
 
-.post-card {
-    margin: 20px 30px;
-}
-
-.form-control:hover {
-    border-color: #017bff;
-    color: #017bff;
-}
-
-.form-control:hover::-webkit-input-placeholder {
-    color: #017bff;
-}
-
-.form-control:focus::-webkit-input-placeholder {
-    color: #017bff;
-}
-
+/* Just */
 .form-control {
-    color: #6d757d;
-}
-
-.form-control:focus {
-    color: #017bff;
-    outline: none;
-    box-shadow: none;
+    color: black;
 }
 
 .error {
     text-align: center;
-}
-
-.PostDetail {
-    margin-left: 10px;
-}
-
-.Create {
-    margin: 50px auto;
-    width: 400px;
 }
 
 .tit-feild {
@@ -49,25 +15,89 @@
 
 .bod-feild {
     margin-bottom: 10px;
-    height: 100px;
 }
 
-.no-posts {
-    text-align: center;
-    color: #aaa;
-    margin-top: 70px;
+
+/* Hover */
+.form-control:hover {
+    border-color: #017bff;
+    color: black;
+}
+
+.form-control:hover::-webkit-input-placeholder {
+    color: #017bff;
+}
+
+
+/* Focus */
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.form-control:focus::-webkit-input-placeholder {
+    color: #017bff;
+}
+
+.form-control:focus {
+    color: black;
+    outline: none;
+    box-shadow: none;
+}
+
+
+
+/* Components */
+
+/* Post */
+.post-card {
+    margin: 20px 30px;
 }
 
 .delete-btn {
     float: right;
 }
 
-.post-title {
-    text-align: center;
-    margin-bottom: 50px;
-    margin-top: 20px;
+.edit-btn {
+    float: right;
+    margin-right: 15px;
 }
 
-.post-body {
+
+/* PostDetail */
+.post-title-div {
+    margin-bottom: 50px;
+}
+
+.post-body-div {
+}
+
+.content-box {
+    background-color: #f8f9fa;
+    width: 900px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+}
+
+
+/* Create */
+.Create {
+    margin: 50px auto;
+    width: 600px;
+}
+
+
+/* App */
+.no-posts {
     text-align: center;
+    color: #aaa;
+    margin-top: 70px;
+}
+
+
+/* Edit */
+.Edit {
+    margin: 50px auto;
+    width: 600px;
 }

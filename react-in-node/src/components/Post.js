@@ -34,7 +34,11 @@ const handleDelete = id => () => {
     window.location.href = '/'
 }
 
-class Posts extends Component {
+const handleEdit = id => () => {
+    window.location.href = '/edit/' + id
+}
+
+class Post extends Component {
     render() {
         const { data } = this.props;
         const arrlet = data.body.split('')
@@ -48,8 +52,11 @@ class Posts extends Component {
                         <Card.Text>
                             { arrlet.length > 45 ? createStr(arrlet) : data.body }
                         </Card.Text>
-                        <Button variant="outline-success" onClick={handleGoPage(data.id)}>Read</Button>
-                        <Button variant="outline-danger" className="delete-btn" onClick={handleDelete(data.id)}>Delete</Button>
+                        <div className="post-buttons">
+                            <Button variant="outline-success" onClick={handleGoPage(data.id)}>Read</Button>
+                            <Button variant="outline-danger" className="delete-btn" onClick={handleDelete(data.id)}>Delete</Button>
+                            <Button variant="outline-primary" className="edit-btn" onClick={handleEdit(data.id)}>Edit</Button>
+                        </div>
                     </Card.Body>
                 </Card>
             </div>
@@ -61,4 +68,4 @@ class Posts extends Component {
 
 
 
-export default Posts;
+export default Post;

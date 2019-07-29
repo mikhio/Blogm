@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 const app = express();
 const port = 5000;
 
+var idChange = '';
+
 
 
 console.log(`Server has ${port} port.`);
@@ -33,17 +35,17 @@ app.get('/:id', function(req, res) {
     res.sendFile(path.join(__dirname, 'react-in-node','build', 'index.html'));
 });
 
-app.get('/api/:id', function(req, res) {
-    const id = req.params.id;
-
-    if (id === 'defpag121') {
-        fs.readdir(__dirname + '/json/pages/', (err, files) => {
-            const result = JSON.stringify({
-                files: files.map(file => file.split('.')[0])
-            })
-            res.send(result);
+app.get('/api/pages', function(req, res) {
+    fs.readdir(__dirname + '/json/pages/', (err, files) => {
+        const result = JSON.stringify({
+            files: files.map(file => file.split('.')[0])
         })
-    } else {
+        res.send(result);
+    })
+});
+
+app.get('/api/page/:id', function(req, res) {
+    const id = req.params.id;
         fs.exists(__dirname + '/json/pages/' + id + '.json', (exist) => {
             if (!exist) {
                 res.sendFile(__dirname + '/json/error.json');
@@ -52,7 +54,6 @@ app.get('/api/:id', function(req, res) {
 
             res.sendFile(__dirname + '/json/pages/' + id + '.json');
         })
-    }
 });
 
 app.post('/api/add', function(req, res) {
@@ -64,6 +65,18 @@ app.post('/api/add', function(req, res) {
 app.post('/api/delete', function(req, res) {
     var namefile = __dirname + '/json/pages/' + req.body.delete + '.json'
     fs.unlink(namefile)
+});
+
+app.get('/api/edit/:id', function(req, res) {
+    const id = req.params.id;
+    var namefile = __dirname + '/json/pages/' + id + '.json'
+    res.sendFile(namefile)
+});
+
+app.post('/api/edit', function(req, res) {
+    var namefile = __dirname + '/json/pages/' + req.body.id + '.json'
+    var json = JSON.stringify(req.body)
+    fs.writeFile(namefile, json)
 });
 
 app.listen(port);

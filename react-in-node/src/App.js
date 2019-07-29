@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import Posts from './components/Posts.js';
+import Post from './components/Post.js';
 import Header from './components/Header.js';
 import PostDetail from './components/PostDetail.js';
 import Create from './components/Create.js';
+import Edit from './components/Edit.js'
 import './App.css'
 
 
@@ -22,27 +23,27 @@ class App extends Component {
         const arr = url.split('/')
         const id = arr[arr.length - 1]
         if (id !== '' && id !== 'create') {
-            fetch('http://localhost:5000/api/' +  id)
+            fetch('http://localhost:5000/api/page/' +  id)
                 .then(response => response.json())
                 .then(data => {
                     this.setState({ data })
                 })
         } else if (id === 'create') {
-            fetch('http://localhost:5000/api/defpag121')
+            fetch('http://localhost:5000/api/pages')
                 .then(response => response.json())
                 .then(data => {
                     var arrfil = data.files.slice(0, 50)
                     this.setState({files: arrfil})
                 })
         } else {
-            fetch('http://localhost:5000/api/defpag121')
+            fetch('http://localhost:5000/api/pages')
                 .then(response => response.json())
                 .then(data => {
                     var arrfil = data.files.slice(0, 50)
                     this.setState({files: arrfil})
                     for (var i in arrfil) {
                         var id = arrfil[i]
-                        fetch('http://localhost:5000/api/' + id)
+                        fetch('http://localhost:5000/api/page/' + id)
                             .then(response => response.json())
                             .then(res => {
                                 this.setState({
@@ -54,6 +55,9 @@ class App extends Component {
         }
     }
     render() {
+        const url = window.location.href
+        const arr = url.split('/')
+
         if (window.location.href === 'http://localhost:3000/create' || window.location.href === 'http://192.168.1.162:3000/create') {
             if (this.state.files !== []) {
                 return (
@@ -63,8 +67,15 @@ class App extends Component {
                     </div>
                 )
             }
+        } else if ( arr[arr.length-2] === 'edit') {
+            return (
+                <div className="App">
+                    <Header />
+                    <Edit />
+                </div>
+            )
         } else {
-            if (this.state.data !== null && this.state.data.id !== 'error') {
+            if (this.state.data !== null && this.state.data.id !== 'error' && arr[arr.length-2] !== 'edit') {
                 return (
                     <div className="App">
                         <Header />
@@ -78,7 +89,7 @@ class App extends Component {
                     return (
                         <div className="App">
                             <Header />
-                            {this.state.cards.map(el => <Posts data={el} />)}
+                            {this.state.cards.map(el => <Post data={el} />)}
                         </div>
                     )
                 } else {

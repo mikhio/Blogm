@@ -8,8 +8,8 @@ class Create extends Component {
 
         this.state = {
             date: null,
-            title: "This is post haven't got title!",
-            body: "This is post haven't got body!",
+            title: "This is post hasn't got title!",
+            body: "This is post hasn't got body!",
             id: null,
         };
     }
@@ -23,9 +23,9 @@ class Create extends Component {
     }
 
     getNowTime = () => {
-        var months = ["January", "February", "March", "April", "May",
-        "June", "July", "August", "September", "October", "November",
-        "December"];
+        var months = ["Jan", "Feb", "Mar", "Apr", "May",
+        "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
+        "Dec"];
 
         var now = new Date();
         var year = now.getFullYear();
@@ -35,7 +35,7 @@ class Create extends Component {
         var hours = now.getHours();
         var mins = now.getMinutes() > 9 ? now.getMinutes() : '0' + now.getMinutes()
 
-        var time = hours > 11 ? (hours - 12) + ':' + mins + ' PM' : hours + ':' + mins + ' AM';
+        var time = hours > 11 ? (hours === 12 ? hours : hours - 12) + ':' + mins + ' PM' : hours + ':' + mins + ' AM';
         var n = month + ' ' + day + ' at ' + time + ', ' + year;
 
         return n;
@@ -89,7 +89,7 @@ class Create extends Component {
                     />
                     <Form.Control
                         as="textarea"
-                        rows="3"
+                        rows="20"
                         name="body"
                         className="bod-feild"
                         placeholder="Body"
