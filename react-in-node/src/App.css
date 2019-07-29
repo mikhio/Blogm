@@ -3,6 +3,7 @@
 /* Just */
 .form-control {
     color: black;
+    padding: 10px 20px;
 }
 
 .error {
@@ -69,9 +70,6 @@
     margin-bottom: 50px;
 }
 
-.post-body-div {
-}
-
 .content-box {
     background-color: #f8f9fa;
     width: 900px;
@@ -82,9 +80,9 @@
 
 
 /* Create */
-.Create {
+.create-form {
     margin: 50px auto;
-    width: 600px;
+    width: 900px;
 }
 
 
@@ -97,7 +95,7 @@
 
 
 /* Edit */
-.Edit {
+.edit-form {
     margin: 50px auto;
-    width: 600px;
+    width: 900px;
 }

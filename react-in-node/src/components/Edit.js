@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
+import Header from './Header.js';
 
 class Edit extends Component {
     constructor(props) {
@@ -51,12 +52,18 @@ class Edit extends Component {
     render() {
         if (this.state.data === null) {
             return null;
+        } else if (this.state.data.id === 'error') {
+            return(
+                <h1 className="error">{this.state.data.text}</h1>
+            )
         }
 
         const { title, body } = this.state.data;
 
         return (
             <div className="Edit">
+                <Header />
+                <div className="edit-form">
                     <Form.Control
                         type="text"
                         name="title"
@@ -80,6 +87,7 @@ class Edit extends Component {
                         onClick={this.handleSubmit}>
                         Submit
                     </Button>
+                </div>
             </div>
         )
     }

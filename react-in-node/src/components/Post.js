@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
 const handleGoPage = id => () => {
-    window.location.href = '/' + id
+    window.location.href = '/post/' + id
 }
 
 const createStr = array => {

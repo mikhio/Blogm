@@ -1,25 +1,33 @@
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
+import Header from './Header.js';
 
 class Create extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            date: null,
-            title: "This is post hasn't got title!",
-            body: "This is post hasn't got body!",
-            id: null,
+            data: {
+                date: null,
+                title: "This is post hasn't got title!",
+                body: "This is post hasn't got body!",
+                id: null,
+            },
+            files: []
         };
     }
 
     handleChangeTit = (event) => {
-        this.setState({title: event.target.value});
+        var prevData = {...this.state.data};
+        prevData.title = event.target.value;
+        this.setState({data: prevData});
     }
 
     handleChangeBod = (event) => {
-        this.setState({body: event.target.value});
+        var prevData = {...this.state.data};
+        prevData.body = event.target.value;
+        this.setState({data: prevData});
     }
 
     getNowTime = () => {
@@ -59,11 +67,14 @@ class Create extends Component {
     }
 
     handleSubmit = () => {
-        var lastIx = this.props.files.length - 1
-        var lastId = this.props.files[lastIx]
+        var lastIx = this.state.files.length - 1
+        var lastId = this.state.files[lastIx]
+
+        var prevData = {...this.state.data};
+        prevData.date = this.getNowTime();
+        prevData.id = this.nextId(lastId);
         this.setState({
-            date: this.getNowTime(),
-            id: this.nextId(lastId)
+            data: prevData
         }, () => {
             fetch("http://localhost:5000/api/add",
             {
@@ -71,15 +82,29 @@ class Create extends Component {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(this.state)
+                body: JSON.stringify(this.state.data)
             })
             window.location.href = '/'
         });
     }
 
+    componentDidMount() {
+        const url = window.location.href
+        const arr = url.split('/')
+        const id = arr[arr.length - 1]
+        fetch('http://localhost:5000/api/pages')
+            .then(response => response.json())
+            .then(data => {
+                var arrfil = data.files.slice(0, 50)
+                this.setState({files: arrfil})
+            })
+    }
+
     render() {
         return (
             <div className="Create">
+                <Header />
+                <div className="create-form">
                     <Form.Control
                         type="text"
                         name="title"
@@ -101,6 +126,7 @@ class Create extends Component {
                         onClick={this.handleSubmit}>
                         Submit
                     </Button>
+                </div>
             </div>
         )
     }
