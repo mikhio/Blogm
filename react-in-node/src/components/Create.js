@@ -92,11 +92,10 @@ class Create extends Component {
         const url = window.location.href
         const arr = url.split('/')
         const id = arr[arr.length - 1]
-        fetch('http://localhost:5000/api/pages')
+        fetch('http://localhost:5000/api/pagesId')
             .then(response => response.json())
             .then(data => {
-                var arrfil = data.files.slice(0, 50)
-                this.setState({files: arrfil})
+                this.setState({files: data})
             })
     }
 

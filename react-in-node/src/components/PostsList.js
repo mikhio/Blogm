@@ -16,17 +16,9 @@ class PostsList extends Component {
         fetch('http://localhost:5000/api/pages')
             .then(response => response.json())
             .then(data => {
-                var arrfil = data.files.slice(0, 50)
-                for (var i in arrfil) {
-                    var id = arrfil[i]
-                    fetch('http://localhost:5000/api/page/' + id)
-                        .then(response => response.json())
-                        .then(res => {
-                            this.setState({
-                                cards: this.state.cards.concat(res)
-                            })
-                        })
-                }
+                this.setState({
+                    cards: data
+                })
             })
     }
 
