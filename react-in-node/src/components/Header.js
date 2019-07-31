@@ -6,6 +6,28 @@ import { FormControl } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
 class Header extends Component {
+    state = {
+        title: '',
+    }
+
+    handleChange = (event) => {
+        this.setState({
+            title:event.target.value
+        })
+    }
+
+    handleSearch = () => {
+        fetch("http://localhost:5000/api/search/title",
+        {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        window.location.href = '/search/title'
+    }
+
     render() {
         return (
             <div className="Header">
@@ -15,8 +37,17 @@ class Header extends Component {
                         <Nav.Link href="/create">Create post</Nav.Link>
                     </Nav>
                     <Form inline>
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-primary">Search</Button>
+                        <FormControl
+                            type="text"
+                            placeholder="Search"
+                            className="mr-sm-2"
+                            onChange={this.handleChange}
+                         />
+                        <Button
+                            variant="outline-primary"
+                            onClick={this.handleSearch}>
+                            Search
+                        </Button>
                     </Form>
                 </Navbar>
             </div>

@@ -12,7 +12,6 @@ class Create extends Component {
                 date: null,
                 title: "This is post hasn't got title!",
                 body: "This is post hasn't got body!",
-                id: null,
             },
             files: []
         };
@@ -49,30 +48,9 @@ class Create extends Component {
         return n;
     }
 
-    nextId = id => {
-        if (id !== undefined) {
-            var arrId = id.split('')
-            var strNum = '';
-            arrId.shift()
-            for (var i in arrId) {
-                strNum = strNum + arrId[i]
-            }
-            var num = Number(strNum)
-            num++
-            var res = 'p' + num
-            return res
-        } else {
-            return 'p1'
-        }
-    }
-
     handleSubmit = () => {
-        var lastIx = this.state.files.length - 1
-        var lastId = this.state.files[lastIx]
-
         var prevData = {...this.state.data};
         prevData.date = this.getNowTime();
-        prevData.id = this.nextId(lastId);
         this.setState({
             data: prevData
         }, () => {

@@ -53,9 +53,9 @@ class Post extends Component {
                             { arrlet.length > 45 ? createStr(arrlet) : data.body }
                         </Card.Text>
                         <div className="post-buttons">
-                            <Button variant="outline-success" onClick={handleGoPage(data.id)}>Read</Button>
-                            <Button variant="outline-danger" className="delete-btn" onClick={handleDelete(data.id)}>Delete</Button>
-                            <Button variant="outline-primary" className="edit-btn" onClick={handleEdit(data.id)}>Edit</Button>
+                            <Button variant="outline-success" onClick={handleGoPage(data._id)}>Read</Button>
+                            <Button variant="outline-danger" className="delete-btn" onClick={handleDelete(data._id)}>Delete</Button>
+                            <Button variant="outline-primary" className="edit-btn" onClick={handleEdit(data._id)}>Edit</Button>
                         </div>
                     </Card.Body>
                 </Card>

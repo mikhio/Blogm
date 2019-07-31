@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient, ObjectID } = require('mongodb');
 
 const app = express();
 const port = 5000;
@@ -26,7 +26,7 @@ client.connect(function(err) {
 
     const collectionPages = db.collection('pages');
     const collectionError = db.collection('error');
-
+    const collectionSearch = db.collection('search');
 
 
     console.log("Connected successfully to server");
@@ -60,7 +60,7 @@ client.connect(function(err) {
         collectionPages.find({}).toArray((err, docs) => {
             const arrId = []
             for (var i in docs) {
-                const id = docs[i].id
+                const id = docs[i]._id
                 arrId.push(id)
             }
             res.send(arrId)
@@ -74,13 +74,12 @@ client.connect(function(err) {
             let documents = {};
 
             for (var i in docs) {
-                const idDocs = docs[i].id
-                if (id === idDocs) {
+                const idDocs = docs[i]._id
+                if (id.toString() === idDocs.toString()) {
                     flag = true;
                     documents = docs[i]
                 }
             }
-
             if (!flag) {
                 collectionError.find({}).toArray((err, doc) => {
                     res.send(doc[0])
@@ -98,8 +97,8 @@ client.connect(function(err) {
             let documents = {};
 
             for (var i in docs) {
-                const idDocs = docs[i].id
-                if (id === idDocs) {
+                const idDocs = docs[i]._id
+                if (id.toString() === idDocs.toString()) {
                     flag = true;
                     documents = docs[i]
                 }
@@ -115,6 +114,19 @@ client.connect(function(err) {
         })
     });
 
+    app.get('/api/search/:kind', function(req, res) {
+        const kind = req.params.kind
+        switch (kind) {
+            case 'title':
+                collectionSearch.find({}).toArray((err, docs) => {
+                    res.send(docs[0].docs)
+                });
+                break;
+            default:
+                break;
+        }
+    });
+
 
     //POST
     app.post('/api/add', function(req, res) {
@@ -122,17 +134,29 @@ client.connect(function(err) {
     });
 
     app.post('/api/delete', function(req, res) {
-        collectionPages.deleteOne({ id : req.body.delete })
+        collectionPages.deleteOne({ _id : ObjectID(req.body.delete) })
     });
 
 
     app.post('/api/edit', function(req, res) {
-        collectionPages.updateOne({ id : req.body.id }, { $set: {title : req.body.title, body : req.body.body} })
+        collectionPages.updateOne({ _id : ObjectID(req.body._id) }, { $set: { title : req.body.title, body : req.body.body } })
+    });
+
+    app.post('/api/search/:kind', function(req, res) {
+        const kind = req.params.kind
+        switch (kind) {
+            case 'title':
+                collectionPages.find( { $text: { $search: req.body.title } } ).toArray((err, docs) => {
+                    collectionSearch.updateOne({ _id : ObjectID("5d41d8f7ce9c72abbcee31d5") }, { $set : { docs : docs }})
+                });
+                break;
+            default:
+                break;
+        }
     });
 
     app.listen(port);
 });
-
 
 
 
