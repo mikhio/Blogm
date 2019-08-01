@@ -31,7 +31,8 @@ const handleDelete = id => () => {
         },
         body: json
     })
-    window.location.href = '/'
+    const query = window.location.search
+    window.location.href = '/' + query
 }
 
 const handleEdit = id => () => {

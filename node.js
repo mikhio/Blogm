@@ -52,7 +52,12 @@ client.connect(function(err) {
     // GET
     app.get('/api/pages', function(req, res) {
         collectionPages.find({}).toArray(function(err, docs) {
-            res.send(docs);
+            if (docs.length > 10) {
+                const p = req.query.p
+                p !== 'all' ? res.send(docs.slice(10*(p-1), 10*p)) : res.send(docs)
+            } else {
+                res.send(docs);
+            }
         });
     });
 
@@ -119,7 +124,12 @@ client.connect(function(err) {
         switch (kind) {
             case 'title':
                 collectionSearch.find({}).toArray((err, docs) => {
-                    res.send(docs[0].docs)
+                    if (docs[0].docs.length > 10) {
+                        const p = req.query.p
+                        p !== 'all' ? res.send(docs[0].docs.slice(10*(p-1), 10*p)) : res.send(docs[0].docs)
+                    } else {
+                        res.send(docs[0].docs);
+                    }
                 });
                 break;
             default:
@@ -153,6 +163,7 @@ client.connect(function(err) {
             default:
                 break;
         }
+        res.send('');
     });
 
     app.listen(port);

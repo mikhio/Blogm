@@ -62,7 +62,9 @@ class Create extends Component {
                 },
                 body: JSON.stringify(this.state.data)
             })
-            window.location.href = '/'
+            let countPages = 1;
+            this.state.files.length > 10 ? countPages = Math.ceil(this.state.files.length / 10) : countPages = 1
+            window.location.href = '/?p=' + countPages
         });
     }
 

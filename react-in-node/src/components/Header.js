@@ -25,7 +25,17 @@ class Header extends Component {
             },
             body: JSON.stringify(this.state)
         })
-        window.location.href = '/search/title'
+            .then(() => {
+                window.location.href = '/search/title'               
+            });
+    }
+
+    searchKey = (event) => {
+        console.log(event.key);
+        if (event.key === 'Enter') {
+            this.handleSearch();
+            event.preventDefault();
+        }
     }
 
     render() {
@@ -42,6 +52,7 @@ class Header extends Component {
                             placeholder="Search"
                             className="mr-sm-2"
                             onChange={this.handleChange}
+                            onKeyPress={this.searchKey}
                          />
                         <Button
                             variant="outline-primary"

@@ -52,7 +52,7 @@
 
 /* Post */
 .post-card {
-    margin: 20px 30px;
+    margin: 20px 0;
 }
 
 .delete-btn {
@@ -62,6 +62,12 @@
 .edit-btn {
     float: right;
     margin-right: 15px;
+}
+
+/* PostsList */
+.posts {
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 
