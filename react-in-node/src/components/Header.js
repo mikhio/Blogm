@@ -8,6 +8,8 @@ import { Button } from 'react-bootstrap';
 class Header extends Component {
     state = {
         title: '',
+        posts: 0,
+        tags: 0
     }
 
     handleChange = (event) => {
@@ -26,7 +28,7 @@ class Header extends Component {
             body: JSON.stringify(this.state)
         })
             .then(() => {
-                window.location.href = '/search/title'               
+                window.location.href = '/search/title'
             });
     }
 
@@ -38,6 +40,23 @@ class Header extends Component {
         }
     }
 
+    componentDidMount() {
+        fetch('http://localhost:5000/api/pages?p=all')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    posts: data.length
+                })
+            })
+        fetch("http://localhost:5000/api/tags")
+            .then(response => response.json())
+            .then(tags => {
+                this.setState({
+                    tags: tags.length
+                })
+            })
+    }
+
     render() {
         return (
             <div className="Header">
@@ -45,6 +64,8 @@ class Header extends Component {
                     <Navbar.Brand href="/">Blogm</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link href="/create">Create post</Nav.Link>
+                        <Nav.Link href="/?p=1">Posts ({this.state.posts})</Nav.Link>
+                        <Nav.Link href="/tags">Tags ({this.state.tags})</Nav.Link>
                     </Nav>
                     <Form inline>
                         <FormControl

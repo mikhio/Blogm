@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header.js';
+import { Spinner } from 'react-bootstrap';
 
 class PostDetail extends Component {
     constructor(props) {
@@ -38,16 +39,26 @@ class PostDetail extends Component {
                         <div className="post-title-div">
                             <h1 className="post-title">{data.title}</h1>
                         </div>
+                        <div className="post-tags-div">
+                            {data.tags}
+                        </div>
                         <div className="post-body-div">
                             {bodyarr.map((el, ix) => <p key={ix}>{el}</p>)}
                         </div>
                         <br />
-                        <h5>Created {data.date}</h5>
+                        <div className="post-date-div">
+                            <h5>Created {data.date}</h5>
+                        </div>
                     </div>
                 </div>
             )
         } else {
-            return null
+            return (
+                <div className="TagDetail">
+                    <Header />
+                    <Spinner className="spinner" animation="border" variant="primary" />
+                </div>
+            )
         }
     }
 }

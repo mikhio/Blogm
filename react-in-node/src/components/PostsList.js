@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Post from './Post.js';
 import Header from './Header.js';
 import {Pagination} from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 
 
 class PostsList extends Component {
@@ -9,8 +10,8 @@ class PostsList extends Component {
         super(props)
 
         this.state = {
-            cards: [],
-            arrData: []
+            cards: null,
+            arrData: null
         }
     }
 
@@ -50,7 +51,15 @@ class PostsList extends Component {
     }
 
     render() {
-        if (this.state.cards.length === 0 || this.state.arrData.length === 0) {
+        if (this.state.cards === null || this.state.arrData === null) {
+            return (
+                <div className="PostsList">
+                    <Header />
+                    <Spinner className="spinner" animation="border" variant="primary" />
+                </div>
+            )
+
+        } else if (this.state.cards.length === 0 || this.state.arrData.length === 0) {
             return (
                 <div className="App">
                     <Header />

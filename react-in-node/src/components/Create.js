@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import Header from './Header.js';
+import cn from 'classname';
 
 class Create extends Component {
     constructor(props) {
@@ -10,10 +11,17 @@ class Create extends Component {
         this.state = {
             data: {
                 date: null,
-                title: "This is post hasn't got title!",
-                body: "This is post hasn't got body!",
+                title: "",
+                body: "",
+                tags: "",
             },
-            files: []
+            files: [],
+            colorBod: '',
+            colorTit: '',
+            plBod: 'Body',
+            plTit: 'Title',
+            colorTag: '',
+            plTag: 'Tags'
         };
     }
 
@@ -26,6 +34,12 @@ class Create extends Component {
     handleChangeBod = (event) => {
         var prevData = {...this.state.data};
         prevData.body = event.target.value;
+        this.setState({data: prevData});
+    }
+
+    handleChangeTag = (event) => {
+        var prevData = {...this.state.data};
+        prevData.tags = event.target.value;
         this.setState({data: prevData});
     }
 
@@ -49,23 +63,59 @@ class Create extends Component {
     }
 
     handleSubmit = () => {
-        var prevData = {...this.state.data};
-        prevData.date = this.getNowTime();
-        this.setState({
-            data: prevData
-        }, () => {
-            fetch("http://localhost:5000/api/add",
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.state.data)
-            })
-            let countPages = 1;
-            this.state.files.length > 10 ? countPages = Math.ceil(this.state.files.length / 10) : countPages = 1
-            window.location.href = '/?p=' + countPages
-        });
+        if (this.state.data.title !== '' && this.state.data.body !== '') {
+            var prevData = {...this.state.data};
+            prevData.date = this.getNowTime();
+            this.setState({
+                data: prevData
+            }, () => {
+                fetch("http://localhost:5000/api/add",
+                {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(this.state.data)
+                })
+                let countPages = 1;
+                this.state.files.length > 10 ? countPages = Math.ceil(this.state.files.length / 10) : countPages = 1
+                window.location.href = '/?p=' + countPages
+            });
+        } else {
+            if (this.state.data.title === '') {
+                this.setState({
+                    colorTit: 'red',
+                    plTit: "You didn't enter title!"
+                })
+            } else {
+                this.setState({
+                    colorTit: '',
+                    plTit: 'Title'
+                })
+            }
+            if (this.state.data.body === '') {
+                this.setState({
+                    colorBod: 'red',
+                    plBod: "You didn't enter body!"
+                })
+            } else {
+                this.setState({
+                    colorBod: '',
+                    plBod: 'Body'
+                })
+            }
+            if (this.state.data.tags === '') {
+                this.setState({
+                    colorTag: 'red',
+                    plTag: "You didn't enter tags!"
+                })
+            } else {
+                this.setState({
+                    colorTag: '',
+                    plTag: 'Tags'
+                })
+            }
+        }
     }
 
     componentDidMount() {
@@ -87,17 +137,24 @@ class Create extends Component {
                     <Form.Control
                         type="text"
                         name="title"
-                        className="tit-feild"
-                        placeholder="Title"
+                        className={cn('tit-feild', this.state.colorTit)}
+                        placeholder={this.state.plTit}
                         onChange={this.handleChangeTit}
                     />
                     <Form.Control
                         as="textarea"
                         rows="20"
                         name="body"
-                        className="bod-feild"
-                        placeholder="Body"
+                        className={cn('bod-feild', this.state.colorBod)}
+                        placeholder={this.state.plBod}
                         onChange={this.handleChangeBod}
+                    />
+                    <Form.Control
+                        type="text"
+                        name="title"
+                        className={cn('tag-feild', this.state.colorTag)}
+                        placeholder={this.state.plTag}
+                        onChange={this.handleChangeTag}
                     />
                     <Button
                         variant="outline-primary"

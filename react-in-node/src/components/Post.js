@@ -59,6 +59,7 @@ class Post extends Component {
                             <Button variant="outline-primary" className="edit-btn" onClick={handleEdit(data._id)}>Edit</Button>
                         </div>
                     </Card.Body>
+                    <Card.Footer className="text-muted">Tags: {data.tags}</Card.Footer>
                 </Card>
             </div>
         )

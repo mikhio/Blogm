@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Post from './Post.js'
 import {Pagination} from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 
 
 class SearchTitle extends Component {
     state = {
-        cards: [],
-        arrData: [],
+        cards: null,
+        arrData: null,
     }
 
     componentDidMount() {
@@ -45,7 +46,14 @@ class SearchTitle extends Component {
     }
 
     render() {
-        if (this.state.cards.length === 0 || this.state.arrData.length === 0) {
+        if (this.state.cards === null || this.state.arrData === null) {
+            return (
+                <div className="SearchTitle">
+                    <Spinner className="spinner" animation="border" variant="primary" />
+                </div>
+            )
+
+        } else if (this.state.cards.length === 0 || this.state.arrData.length === 0) {
             return (
                 <div className="SearchTitle">
                     <h1 className="no-posts">Posts not found!</h1>

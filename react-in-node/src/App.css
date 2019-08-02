@@ -1,6 +1,10 @@
 /* All */
 
 /* Just */
+html, body, #root {
+    height: 100%;
+}
+
 .form-control {
     color: black;
     padding: 10px 20px;
@@ -16,6 +20,15 @@
 
 .bod-feild {
     margin-bottom: 10px;
+}
+
+.tag-feild {
+    margin-bottom: 20px;
+}
+
+.spinner {
+    display: block;
+    margin: 300px auto;
 }
 
 
@@ -52,7 +65,7 @@
 
 /* Post */
 .post-card {
-    margin: 20px 0;
+    margin: 30px 0;
 }
 
 .delete-btn {
@@ -64,6 +77,23 @@
     margin-right: 15px;
 }
 
+.red {
+    border-color: #F9350B;
+}
+
+.red:hover {
+    border-color: #F9350B;
+}
+
+.red:hover::-webkit-input-placeholder {
+    color: #F9350B;
+}
+
+.red:focus::-webkit-input-placeholder {
+    color: #F9350B;
+}
+
+
 /* PostsList */
 .posts {
     margin-left: 30px;
@@ -72,16 +102,32 @@
 
 
 /* PostDetail */
+.PostDetail {
+    height: 100%;
+}
+
 .post-title-div {
+
+}
+
+.post-body-div {
+    flex-grow: 1;
+}
+
+.post-tags-div {
     margin-bottom: 50px;
+    color: #777;
 }
 
 .content-box {
+    display: flex;
     background-color: #f8f9fa;
     width: 900px;
     margin: 0 auto;
     margin-top: 20px;
     padding: 10px 20px;
+    min-height: 100%;
+    flex-direction: column;
 }
 
 
@@ -104,4 +150,26 @@
 .edit-form {
     margin: 50px auto;
     width: 900px;
+}
+
+
+/* Header */
+.counter-posts {
+    font-size: 17px;
+    margin-right: auto;
+    color: #777;
+}
+
+
+/* Tags */
+.Tags {
+    height: 100%;
+}
+
+.tags-list {
+    width: 600px;
+    background-color: #f8f9fa;
+    min-height: 100%;
+    margin: 20px auto;
+    padding: 20px 40px;
 }

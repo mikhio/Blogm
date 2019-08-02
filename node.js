@@ -137,6 +137,24 @@ client.connect(function(err) {
         }
     });
 
+    app.get('/api/tags', function(req, res) {
+        collectionPages.find({}).toArray((err, docs) => {
+            const arrTags = []
+            for (var i in docs) {
+                const tag = docs[i].tags
+                arrTags.push(tag)
+            }
+            res.send(arrTags)
+        })
+    });
+
+    app.get('/api/tag/:name', function(req, res) {
+        const name = req.params.name
+        collectionPages.find({tags: name}).toArray((err, docs) => {
+            res.send(docs)
+        });
+    });
+
 
     //POST
     app.post('/api/add', function(req, res) {
