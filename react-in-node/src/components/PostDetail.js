@@ -32,6 +32,14 @@ class PostDetail extends Component {
                 )
             }
             const bodyarr = data.body.split('\n')
+
+            let tagsStrErr = ""
+            for (var i in data.tags) {
+                const tag = data.tags[i]
+                tagsStrErr += ' ' + tag + ','
+            }
+            const tagsStr = tagsStrErr.substring(1, tagsStrErr.length - 1)
+
             return (
                 <div className="PostDetail">
                     <Header />
@@ -40,7 +48,7 @@ class PostDetail extends Component {
                             <h1 className="post-title">{data.title}</h1>
                         </div>
                         <div className="post-tags-div">
-                            {data.tags}
+                            {tagsStr}
                         </div>
                         <div className="post-body-div">
                             {bodyarr.map((el, ix) => <p key={ix}>{el}</p>)}

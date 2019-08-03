@@ -26,7 +26,6 @@ client.connect(function(err) {
 
     const collectionPages = db.collection('pages');
     const collectionError = db.collection('error');
-    const collectionSearch = db.collection('search');
 
 
     console.log("Connected successfully to server");
@@ -51,14 +50,26 @@ client.connect(function(err) {
 
     // GET
     app.get('/api/pages', function(req, res) {
-        collectionPages.find({}).toArray(function(err, docs) {
-            if (docs.length > 10) {
-                const p = req.query.p
-                p !== 'all' ? res.send(docs.slice(10*(p-1), 10*p)) : res.send(docs)
-            } else {
-                res.send(docs);
-            }
-        });
+        const q = req.query.q
+        if (typeof q === "string") {
+            collectionPages.find({ $text: { $search: q } }).toArray(function(err, docs) {
+                if (docs.length > 10) {
+                    const p = req.query.p
+                    p !== 'all' ? res.send(docs.slice(10*(p-1), 10*p)) : res.send(docs)
+                } else {
+                    res.send(docs);
+                }
+            });
+        } else {
+            collectionPages.find({}).toArray(function(err, docs) {
+                if (docs.length > 10) {
+                    const p = req.query.p
+                    p !== 'all' ? res.send(docs.slice(10*(p-1), 10*p)) : res.send(docs)
+                } else {
+                    res.send(docs);
+                }
+            });
+        }
     });
 
     app.get('/api/pagesId', function(req, res) {
@@ -119,24 +130,6 @@ client.connect(function(err) {
         })
     });
 
-    app.get('/api/search/:kind', function(req, res) {
-        const kind = req.params.kind
-        switch (kind) {
-            case 'title':
-                collectionSearch.find({}).toArray((err, docs) => {
-                    if (docs[0].docs.length > 10) {
-                        const p = req.query.p
-                        p !== 'all' ? res.send(docs[0].docs.slice(10*(p-1), 10*p)) : res.send(docs[0].docs)
-                    } else {
-                        res.send(docs[0].docs);
-                    }
-                });
-                break;
-            default:
-                break;
-        }
-    });
-
     app.get('/api/tags', function(req, res) {
         collectionPages.find({}).toArray((err, docs) => {
             const arrTags = []
@@ -170,19 +163,6 @@ client.connect(function(err) {
         collectionPages.updateOne({ _id : ObjectID(req.body._id) }, { $set: { title : req.body.title, body : req.body.body } })
     });
 
-    app.post('/api/search/:kind', function(req, res) {
-        const kind = req.params.kind
-        switch (kind) {
-            case 'title':
-                collectionPages.find( { $text: { $search: req.body.title } } ).toArray((err, docs) => {
-                    collectionSearch.updateOne({ _id : ObjectID("5d41d8f7ce9c72abbcee31d5") }, { $set : { docs : docs }})
-                });
-                break;
-            default:
-                break;
-        }
-        res.send('');
-    });
 
     app.listen(port);
 });

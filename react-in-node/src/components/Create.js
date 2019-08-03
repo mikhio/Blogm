@@ -21,7 +21,8 @@ class Create extends Component {
             plBod: 'Body',
             plTit: 'Title',
             colorTag: '',
-            plTag: 'Tags'
+            plTag: 'Tags (Enter tags through comma, for example: tag1,tag2)',
+            tags: []
         };
     }
 
@@ -38,8 +39,10 @@ class Create extends Component {
     }
 
     handleChangeTag = (event) => {
+        const arrTags = []
+        event.target.value.split(',').map(el => arrTags.push(el))
         var prevData = {...this.state.data};
-        prevData.tags = event.target.value;
+        prevData.tags = arrTags;
         this.setState({data: prevData});
     }
 
@@ -66,6 +69,7 @@ class Create extends Component {
         if (this.state.data.title !== '' && this.state.data.body !== '') {
             var prevData = {...this.state.data};
             prevData.date = this.getNowTime();
+
             this.setState({
                 data: prevData
             }, () => {
@@ -107,25 +111,27 @@ class Create extends Component {
             if (this.state.data.tags === '') {
                 this.setState({
                     colorTag: 'red',
-                    plTag: "You didn't enter tags!"
+                    plTag: "You didn't enter tags! (Enter tags through comma, for example: tag1,tag2)"
                 })
             } else {
                 this.setState({
                     colorTag: '',
-                    plTag: 'Tags'
+                    plTag: 'Tags (Enter tags through comma, for example: tag1,tag2)'
                 })
             }
         }
     }
 
     componentDidMount() {
-        const url = window.location.href
-        const arr = url.split('/')
-        const id = arr[arr.length - 1]
         fetch('http://localhost:5000/api/pagesId')
             .then(response => response.json())
             .then(data => {
                 this.setState({files: data})
+            })
+        fetch('http://localhost:5000/api/tags')
+            .then(response => response.json())
+            .then(tags => {
+                this.setState({tags: tags})
             })
     }
 

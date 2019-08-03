@@ -43,6 +43,12 @@ class Post extends Component {
     render() {
         const { data } = this.props;
         const arrlet = data.body.split('')
+        let tagsStrErr = ""
+        for (var i in data.tags) {
+            const tag = data.tags[i]
+            tagsStrErr += ' ' + tag + ','
+        }
+        const tagsStr = tagsStrErr.substring(1, tagsStrErr.length - 1)
 
         return (
             <div className="Posts">
@@ -59,7 +65,7 @@ class Post extends Component {
                             <Button variant="outline-primary" className="edit-btn" onClick={handleEdit(data._id)}>Edit</Button>
                         </div>
                     </Card.Body>
-                    <Card.Footer className="text-muted">Tags: {data.tags}</Card.Footer>
+                    <Card.Footer className="text-muted">Tags: {tagsStr}</Card.Footer>
                 </Card>
             </div>
         )

@@ -19,17 +19,7 @@ class Header extends Component {
     }
 
     handleSearch = () => {
-        fetch("http://localhost:5000/api/search/title",
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state)
-        })
-            .then(() => {
-                window.location.href = '/search/title'
-            });
+        window.location.href = '/?q=' + this.state.title
     }
 
     searchKey = (event) => {
@@ -51,8 +41,25 @@ class Header extends Component {
         fetch("http://localhost:5000/api/tags")
             .then(response => response.json())
             .then(tags => {
+                const check = []
+                for (var i in tags) {
+                    var dataTags = tags[i]
+                    for (var b in dataTags) {
+                        var tag = dataTags[b]
+                        var flag = false
+                        for (var a in check) {
+                            var checkTag = tags[a]
+                            if (tag === checkTag) {
+                                flag = true
+                            }
+                        }
+                        if (!flag) {
+                            check.push(tag)
+                        }
+                    }
+                }
                 this.setState({
-                    tags: tags.length
+                    tags: check.length
                 })
             })
     }

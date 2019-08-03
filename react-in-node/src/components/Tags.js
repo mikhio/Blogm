@@ -13,8 +13,25 @@ class Tags extends Component {
         fetch("http://localhost:5000/api/tags")
             .then(response => response.json())
             .then(tags => {
+                const check = []
+                for (var i in tags) {
+                    var dataTags = tags[i]
+                    for (var b in dataTags) {
+                        var tag = dataTags[b]
+                        var flag = false
+                        for (var a in check) {
+                            var checkTag = tags[a]
+                            if (tag === checkTag) {
+                                flag = true
+                            }
+                        }
+                        if (!flag) {
+                            check.push(tag)
+                        }
+                    }
+                }
                 this.setState({
-                    tags: tags
+                    tags: check
                 })
             })
     }
@@ -30,6 +47,7 @@ class Tags extends Component {
         }
 
         const tags = this.state.tags
+        console.log(tags);
 
         return (
             <div className="Tags">
