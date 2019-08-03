@@ -20,7 +20,7 @@ class Tags extends Component {
                         var tag = dataTags[b]
                         var flag = false
                         for (var a in check) {
-                            var checkTag = tags[a]
+                            var checkTag = check[a]
                             if (tag === checkTag) {
                                 flag = true
                             }
@@ -47,7 +47,6 @@ class Tags extends Component {
         }
 
         const tags = this.state.tags
-        console.log(tags);
 
         return (
             <div className="Tags">
