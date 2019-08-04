@@ -18,20 +18,37 @@ class PostsList extends Component {
     componentDidMount() {
         const p = window.location.search
         if (p !== '') {
-            fetch('http://localhost:5000/api/pages' + p)
-                .then(response => response.json())
-                .then(data => {
-                    this.setState({
-                        cards: data
+            if (p.split('=')[0] === '?q') {
+                fetch('http://localhost:5000/api/pages' + p)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.setState({
+                            cards: data
+                        })
                     })
-                })
-            fetch('http://localhost:5000/api/pages?p=all')
-                .then(response => response.json())
-                .then(data => {
-                    this.setState({
-                        arrData: data
+                fetch('http://localhost:5000/api/pages' + p + '&pages=all')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.setState({
+                            arrData: data
+                        })
                     })
-                })
+            } else {
+                fetch('http://localhost:5000/api/pages' + p)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.setState({
+                            cards: data
+                        })
+                    })
+                fetch('http://localhost:5000/api/pages?p=all')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.setState({
+                            arrData: data
+                        })
+                    })
+            }
         } else {
             fetch('http://localhost:5000/api/pages?p=1')
                 .then(response => response.json())
@@ -68,20 +85,24 @@ class PostsList extends Component {
             );
         }
         const arrBut = [];
-        const act = Number(window.location.search.split('=')[1]);
+        const query = window.location.search.split('=')
+        const act = Number(query[query.length - 1]);
+        const isSearch = window.location.search.split('=')[0] === '?q'
+        const q = window.location.search.split('=')[1]
         if (this.state.arrData.length > 10) {
             const countBut = Math.ceil(this.state.arrData.length / 10)
             for (var i = 1; i <= countBut; i++) {
                 arrBut.push(i)
             }
         }
+        console.log(isSearch, arrBut, q);
         return (
             <div className="PostsList">
                 <Header />
                 <div className="posts">
                     {this.state.cards.map(el => <Post key={el.id} data={el} />)}
                     <Pagination>
-                        {arrBut.map(el => <Pagination.Item href={"/?p=" + el} active={act === el}>{el}</Pagination.Item>)}
+                        {isSearch ? arrBut.map(el => <Pagination.Item href={"/?q=" + q + "=" + el} active={act === el}>{el}</Pagination.Item>) : arrBut.map(el => <Pagination.Item href={"/?p=" + el} active={act === el}>{el}</Pagination.Item>)}
                     </Pagination>
                 </div>
             </div>

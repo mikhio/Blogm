@@ -55,7 +55,8 @@ client.connect(function(err) {
             collectionPages.find({ $text: { $search: q } }).toArray(function(err, docs) {
                 if (docs.length > 10) {
                     const p = req.query.p
-                    p !== 'all' ? res.send(docs.slice(10*(p-1), 10*p)) : res.send(docs)
+                    const pages = req.query.pages
+                    pages !== 'all' ? res.send(docs.slice(10*(p-1), 10*p)) : res.send(docs)
                 } else {
                     res.send(docs);
                 }

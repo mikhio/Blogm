@@ -19,7 +19,7 @@ class Header extends Component {
     }
 
     handleSearch = () => {
-        window.location.href = '/?q=' + this.state.title
+        window.location.href = '/?q=' + this.state.title + '&p=1'
     }
 
     searchKey = (event) => {
@@ -48,7 +48,7 @@ class Header extends Component {
                         var tag = dataTags[b]
                         var flag = false
                         for (var a in check) {
-                            var checkTag = tags[a]
+                            var checkTag = check[a]
                             if (tag === checkTag) {
                                 flag = true
                             }
