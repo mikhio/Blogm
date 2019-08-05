@@ -31,6 +31,12 @@ html, body, #root {
     margin: 300px auto;
 }
 
+.no-posts {
+    text-align: center;
+    color: #aaa;
+    margin-top: 70px;
+}
+
 
 /* Hover */
 .form-control:hover {
@@ -98,6 +104,12 @@ html, body, #root {
 .posts {
     margin-left: 30px;
     margin-right: 30px;
+    margin-top: 90px;
+}
+
+.found-posts {
+    text-align: center;
+    color: #aaa;
 }
 
 
@@ -124,7 +136,7 @@ html, body, #root {
     background-color: #f8f9fa;
     width: 900px;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 90px;
     padding: 10px 20px;
     min-height: 100%;
     flex-direction: column;
@@ -135,14 +147,7 @@ html, body, #root {
 .create-form {
     margin: 50px auto;
     width: 900px;
-}
-
-
-/* App */
-.no-posts {
-    text-align: center;
-    color: #aaa;
-    margin-top: 70px;
+    margin-top: 90px;
 }
 
 
@@ -150,10 +155,18 @@ html, body, #root {
 .edit-form {
     margin: 50px auto;
     width: 900px;
+    margin-top: 90px;
 }
 
 
 /* Header */
+.head-nav {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+}
+
 .counter-posts {
     font-size: 17px;
     margin-right: auto;
@@ -172,4 +185,5 @@ html, body, #root {
     min-height: 100%;
     margin: 20px auto;
     padding: 20px 40px;
+    margin-top: 90px;
 }

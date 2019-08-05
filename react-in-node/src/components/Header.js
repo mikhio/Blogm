@@ -67,7 +67,7 @@ class Header extends Component {
     render() {
         return (
             <div className="Header">
-                <Navbar bg="light" variant="light">
+                <Navbar className="head-nav" bg="light" variant="light">
                     <Navbar.Brand href="/">Blogm</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link href="/create">Create post</Nav.Link>

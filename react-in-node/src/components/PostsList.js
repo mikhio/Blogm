@@ -99,6 +99,7 @@ class PostsList extends Component {
             <div className="PostsList">
                 <Header />
                 <div className="posts">
+                    {isSearch ? <h2 className="found-posts">Found: {this.state.cards.length} {this.state.cards.length === 1 ? 'post' : 'posts'}</h2> : null}
                     {this.state.cards.map(el => <Post key={el.id} data={el} />)}
                     <Pagination>
                         {isSearch ? arrBut.map(el => <Pagination.Item href={"/?q=" + q + "=" + el} active={act === el}>{el}</Pagination.Item>) : arrBut.map(el => <Pagination.Item href={"/?p=" + el} active={act === el}>{el}</Pagination.Item>)}

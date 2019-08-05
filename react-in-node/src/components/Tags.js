@@ -6,7 +6,7 @@ import { Spinner } from 'react-bootstrap';
 
 class Tags extends Component {
     state = {
-        tags: [],
+        tags: null,
     }
 
     componentDidMount() {
@@ -37,11 +37,20 @@ class Tags extends Component {
     }
 
     render() {
-        if (this.state.tags.length === 0) {
+        if (this.state.tags === null) {
             return (
                 <div className="Tags">
                     <Header />
                     <Spinner className="spinner" animation="border" variant="primary" />
+                </div>
+            )
+        }
+
+        if (this.state.tags.length === 0) {
+            return (
+                <div className="Tags">
+                    <Header />
+                    <h1 className="no-posts">We haven't got tags!</h1>
                 </div>
             )
         }
