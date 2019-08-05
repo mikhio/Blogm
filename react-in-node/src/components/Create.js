@@ -13,15 +13,9 @@ class Create extends Component {
                 date: null,
                 title: "",
                 body: "",
-                tags: "",
+                tags: [''],
             },
             files: [],
-            colorBod: '',
-            colorTit: '',
-            plBod: 'Body',
-            plTit: 'Title',
-            colorTag: '',
-            plTag: 'Tags (Enter tags through comma, for example: tag1,tag2)',
             tags: []
         };
     }
@@ -66,60 +60,24 @@ class Create extends Component {
     }
 
     handleSubmit = () => {
-        if (this.state.data.title !== '' && this.state.data.body !== '') {
-            var prevData = {...this.state.data};
-            prevData.date = this.getNowTime();
+        var prevData = {...this.state.data};
+        prevData.date = this.getNowTime();
 
-            this.setState({
-                data: prevData
-            }, () => {
-                fetch("http://localhost:5000/api/add",
-                {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.state.data)
-                })
-                let countPages = 1;
-                this.state.files.length > 10 ? countPages = Math.ceil(this.state.files.length / 10) : countPages = 1
-                window.location.href = '/?p=' + countPages
-            });
-        } else {
-            if (this.state.data.title === '') {
-                this.setState({
-                    colorTit: 'red',
-                    plTit: "You didn't enter title!"
-                })
-            } else {
-                this.setState({
-                    colorTit: '',
-                    plTit: 'Title'
-                })
-            }
-            if (this.state.data.body === '') {
-                this.setState({
-                    colorBod: 'red',
-                    plBod: "You didn't enter body!"
-                })
-            } else {
-                this.setState({
-                    colorBod: '',
-                    plBod: 'Body'
-                })
-            }
-            if (this.state.data.tags === '') {
-                this.setState({
-                    colorTag: 'red',
-                    plTag: "You didn't enter tags! (Enter tags through comma, for example: tag1,tag2)"
-                })
-            } else {
-                this.setState({
-                    colorTag: '',
-                    plTag: 'Tags (Enter tags through comma, for example: tag1,tag2)'
-                })
-            }
-        }
+        this.setState({
+            data: prevData
+        }, () => {
+            fetch("http://localhost:5000/api/add",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.state.data)
+            })
+            let countPages = 1;
+            this.state.files.length > 10 ? countPages = Math.ceil(this.state.files.length / 10) : countPages = 1
+            window.location.href = '/?p=' + countPages
+        });
     }
 
     componentDidMount() {
@@ -136,6 +94,16 @@ class Create extends Component {
     }
 
     render() {
+        var isCanCreate = false
+
+        if (this.state.data.body !== '' && this.state.data.title !== '' && this.state.data.tags[0] !== '') {
+            isCanCreate = true
+        } else {
+            isCanCreate = false
+        }
+
+        const { title, body, tags } = this.state.data;
+
         return (
             <div className="Create">
                 <Header />
@@ -143,29 +111,33 @@ class Create extends Component {
                     <Form.Control
                         type="text"
                         name="title"
-                        className={cn('tit-feild', this.state.colorTit)}
-                        placeholder={this.state.plTit}
+                        className="tit-feild"
+                        placeholder="Title"
                         onChange={this.handleChangeTit}
+                        value={title}
                     />
                     <Form.Control
                         as="textarea"
                         rows="20"
                         name="body"
-                        className={cn('bod-feild', this.state.colorBod)}
-                        placeholder={this.state.plBod}
+                        className="bod-feild"
+                        placeholder="Body"
                         onChange={this.handleChangeBod}
+                        value={body}
                     />
                     <Form.Control
                         type="text"
                         name="title"
-                        className={cn('tag-feild', this.state.colorTag)}
-                        placeholder={this.state.plTag}
+                        className="tag-feild"
+                        placeholder="Tags (Enter tags through comma, for example: tag1,tag2)"
                         onChange={this.handleChangeTag}
+                        value={tags}
                     />
                     <Button
                         variant="outline-primary"
                         type="submit"
-                        onClick={this.handleSubmit}>
+                        onClick={this.handleSubmit}
+                        disabled={!isCanCreate}>
                         Submit
                     </Button>
                 </div>

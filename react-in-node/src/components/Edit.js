@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import Header from './Header.js';
+import cn from 'classname';
 
 class Edit extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: null
+            data: null,
         };
     }
 
@@ -24,17 +25,25 @@ class Edit extends Component {
         this.setState({data: prevData});
     }
 
+    handleChangeTag = (event) => {
+        const arrTags = []
+        event.target.value.split(',').map(el => arrTags.push(el))
+        var prevData = {...this.state.data};
+        prevData.tags = arrTags;
+        this.setState({data: prevData});
+    }
+
 
     handleSubmit = () => {
-            fetch("http://localhost:5000/api/edit",
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.state.data)
-            })
-            window.location.href = '/'
+        fetch("http://localhost:5000/api/edit",
+        {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.data)
+        })
+        window.location.href = '/?p=1'
     }
 
     componentDidMount() {
@@ -58,7 +67,15 @@ class Edit extends Component {
             )
         }
 
-        const { title, body } = this.state.data;
+        const { title, body, tags } = this.state.data;
+
+        var isCanCreate = false
+
+        if (this.state.data.body !== '' && this.state.data.title !== '' && this.state.data.tags[0] !== '') {
+            isCanCreate = true
+        } else {
+            isCanCreate = false
+        }
 
         return (
             <div className="Edit">
@@ -81,10 +98,19 @@ class Edit extends Component {
                         onChange={this.handleChangeBod}
                         value={body}
                     />
+                    <Form.Control
+                        type="text"
+                        name="title"
+                        className="tag-feild"
+                        placeholder="Tags (Enter tags through comma, for example: tag1,tag2)"
+                        onChange={this.handleChangeTag}
+                        value={tags}
+                    />
                     <Button
                         variant="outline-primary"
                         type="submit"
-                        onClick={this.handleSubmit}>
+                        onClick={this.handleSubmit}
+                        disabled={!isCanCreate}>
                         Submit
                     </Button>
                 </div>

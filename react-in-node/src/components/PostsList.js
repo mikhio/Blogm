@@ -95,7 +95,6 @@ class PostsList extends Component {
                 arrBut.push(i)
             }
         }
-        console.log(isSearch, arrBut, q);
         return (
             <div className="PostsList">
                 <Header />

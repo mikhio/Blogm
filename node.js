@@ -161,7 +161,7 @@ client.connect(function(err) {
 
 
     app.post('/api/edit', function(req, res) {
-        collectionPages.updateOne({ _id : ObjectID(req.body._id) }, { $set: { title : req.body.title, body : req.body.body } })
+        collectionPages.updateOne({ _id : ObjectID(req.body._id) }, { $set: { title : req.body.title, body : req.body.body, tags : req.body.tags } })
     });
 
 
