@@ -8,23 +8,33 @@ import LogIn from './components/LogIn.js'
 import Register from './components/Register.js'
 import TagDetail from './components/TagDetail.js'
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import getCookieValue from './funcs.js';
 import './App.css'
 
 
 class App extends Component {
     render() {
-        return (
-            <Router>
-                <Route path="/" exact component={Main} />
-                <Route path="/register" exact component={Register} />
-                <Route path="/login" exact component={LogIn} />
-                <Route path="/create" component={Create} />
-                <Route path="/tags" component={Tags} />
-                <Route path="/tag/:name" component={TagDetail} />
-                <Route path="/edit/:id" component={Edit} />
-                <Route path="/post/:id" component={PostDetail} />
-            </Router>
-        );
+        const cookie = getCookieValue('authoriz')
+        if (cookie === 'on') {
+            return (
+                <Router>
+                    <Route path="/" exact component={Main} />
+                    <Route path="/create" component={Create} />
+                    <Route path="/tags" component={Tags} />
+                    <Route path="/tag/:name" component={TagDetail} />
+                    <Route path="/edit/:id" component={Edit} />
+                    <Route path="/post/:id" component={PostDetail} />
+                </Router>
+            );
+        } else {
+            return (
+                <Router>
+                    <Route path="/" exact component={Main} />
+                    <Route path="/register" exact component={Register} />
+                    <Route path="/login" exact component={LogIn} />
+                </Router>
+            );
+        }
     }
 
 }

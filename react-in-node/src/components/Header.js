@@ -22,6 +22,12 @@ class Header extends Component {
         window.location.href = '/?q=' + this.state.title + '&p=1'
     }
 
+    handleExit = () => {
+        document.cookie = 'authoriz=on; max-age=0'
+        document.cookie = 'id=0; max-age=0'
+        window.location.href = '/'
+    }
+
     searchKey = (event) => {
         console.log(event.key);
         if (event.key === 'Enter') {
@@ -88,6 +94,11 @@ class Header extends Component {
                             Search
                         </Button>
                     </Form>
+                    <Button
+                        variant="outline-success ml-3"
+                        onClick={this.handleExit}>
+                        Sign out
+                    </Button>
                 </Navbar>
             </div>
         )

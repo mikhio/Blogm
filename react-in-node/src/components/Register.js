@@ -61,7 +61,7 @@ class Register extends Component {
                 if (stat.status === 200) {
                     const time = 3600 * 24 * 7
                     document.cookie = `authoriz=on; max-age=${time}`
-                    document.cookie = `id=${stat.id}; max-age=${time}`
+                    document.cookie = `id=${stat.id};`
                     window.location.href = '/'
                 } else {
                     if (stat.wrong ===  'pass') {
