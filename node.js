@@ -26,6 +26,7 @@ client.connect(function(err) {
 
     const collectionPages = db.collection('pages');
     const collectionError = db.collection('error');
+    const collectionUsers = db.collection('users');
 
 
     console.log("Connected successfully to server");
@@ -154,6 +155,67 @@ client.connect(function(err) {
     app.post('/api/add', function(req, res) {
         collectionPages.insertOne(req.body);
     });
+
+
+    app.post('/api/register', function(req, res) {
+        const username = req.body.login
+        let isEqual = false
+        let stat = {}
+        collectionUsers.find({login: username}).toArray((err, docs) => {
+            if (docs.length !== 0) {
+                isEqual = true
+            }
+            if (!isEqual) {
+                if (req.body.pass1 === req.body.pass2) {
+                    const userData = {
+                        email: req.body.email,
+                        login: req.body.login,
+                        pass: req.body.pass1
+                    }
+                    collectionUsers.insertOne(userData, (err, result) => {
+                            const id = result.ops._id
+                            stat.status = 200
+                            stat.id = id
+                            res.send(JSON.stringify(stat))
+                    });
+                } else {
+                    stat.status = 400
+                    stat.wrong = 'pass'
+                    res.send(JSON.stringify(stat))
+                }
+            } else {
+                stat.status = 400
+                stat.wrong = 'username'
+                res.send(JSON.stringify(stat))
+            }
+        });
+    });
+
+
+    app.post('/api/login', function(req, res) {
+        const username = req.body.login
+        const password = req.body.pass
+        let isEqual = false
+        let stat = {}
+        collectionUsers.find({login: username}).toArray((err, docs) => {
+            if (docs.length === 0) {
+                stat.status = 400
+                stat.wrong = 'username'
+                res.send(JSON.stringify(stat))
+            } else {
+                if (password === docs[0].pass) {
+                    stat.status = 200
+                    stat.id = docs[0]._id
+                    res.send(JSON.stringify(stat))
+                } else{
+                    stat.status = 400
+                    stat.wrong = 'pass'
+                    res.send(JSON.stringify(stat))
+                }
+            }
+        });
+    });
+
 
     app.post('/api/delete', function(req, res) {
         collectionPages.deleteOne({ _id : ObjectID(req.body.delete) })

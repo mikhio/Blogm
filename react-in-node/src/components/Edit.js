@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import Header from './Header.js';
-import cn from 'classname';
 
 class Edit extends Component {
     constructor(props) {
@@ -69,12 +68,12 @@ class Edit extends Component {
 
         const { title, body, tags } = this.state.data;
 
-        var isCanCreate = false
+        var isCanEdit = false
 
         if (this.state.data.body !== '' && this.state.data.title !== '' && this.state.data.tags[0] !== '') {
-            isCanCreate = true
+            isCanEdit = true
         } else {
-            isCanCreate = false
+            isCanEdit = false
         }
 
         return (
@@ -110,7 +109,7 @@ class Edit extends Component {
                         variant="outline-primary"
                         type="submit"
                         onClick={this.handleSubmit}
-                        disabled={!isCanCreate}>
+                        disabled={!isCanEdit}>
                         Submit
                     </Button>
                 </div>

@@ -22,6 +22,14 @@ html, body, #root {
     margin-bottom: 10px;
 }
 
+.login-field {
+    margin-bottom: 15px;
+}
+
+.pass2-field {
+    margin-bottom: 20px;
+}
+
 .tag-feild {
     margin-bottom: 20px;
 }
@@ -186,4 +194,71 @@ html, body, #root {
     margin: 20px auto;
     padding: 20px 40px;
     margin-top: 90px;
+}
+
+
+/* AuthoPage */
+.autho-content {
+    width: 500px;
+    margin: 180px auto;
+}
+
+.autho-btns {
+    width: 200px;
+    margin: 15px auto;
+}
+
+.register {
+    margin-left: 15px;
+}
+
+.choose {
+    text-align: center;
+    font-family: lato;
+    font-weight: 400;
+    font-size: 55px;
+}
+
+
+/* Register */
+.register-content {
+    margin: 50px auto;
+    width: 500px;
+    margin-top: 90px;
+}
+
+.email-field {
+    margin-bottom: 15px;
+}
+
+.pass1-field {
+    margin-bottom: 15px;
+}
+
+.register-errors {
+    color: red;
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+.register-errors-and-button {
+    display: flex;
+}
+
+
+/* LogIn */
+.login-content {
+    margin: 50px auto;
+    width: 500px;
+    margin-top: 90px;
+}
+
+.login-errors {
+    color: red;
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+.login-errors-and-button {
+    display: flex;
 }

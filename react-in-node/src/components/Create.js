@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import Header from './Header.js';
-import cn from 'classname';
 
 class Create extends Component {
     constructor(props) {
@@ -53,7 +52,7 @@ class Create extends Component {
         var hours = now.getHours();
         var mins = now.getMinutes() > 9 ? now.getMinutes() : '0' + now.getMinutes()
 
-        var time = hours > 11 ? (hours === 12 ? hours : hours - 12) + ':' + mins + ' PM' : hours + ':' + mins + ' AM';
+        var time = hours > 11 ? (hours === 12 ? hours : hours - 12) + ':' + mins + ' PM' : (hours === 0 ? hours + 12 : hours) + ':' + mins + ' AM';
         var n = month + ' ' + day + ' at ' + time + ', ' + year;
 
         return n;
