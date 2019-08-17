@@ -1,12 +1,26 @@
 const express = require('express');
+const multer = require('multer')
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const { MongoClient, ObjectID } = require('mongodb');
+const cors = require('cors');
 
 const app = express();
 const port = 5000;
 
+app.use(cors());
+
+const storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+      cb(null, 'public')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname )
+    }
+})
+
+const upload = multer({ storage: storage }).single('file')
 
 console.log(`Server has ${port} port.`);
 
@@ -19,7 +33,7 @@ const client = new MongoClient(url);
 
 client.connect(function(err) {
     if (err !== null) {
-        clonsole.error('Problem')
+        console.error('Problem')
     }
 
     const db = client.db(dbName);
@@ -87,49 +101,23 @@ client.connect(function(err) {
 
     app.get('/api/page/:id', function(req, res) {
         const id = req.params.id;
-        collectionPages.find({}).toArray((err, docs) => {
-            let flag = false;
-            let documents = {};
-
-            for (var i in docs) {
-                const idDocs = docs[i]._id
-                if (id.toString() === idDocs.toString()) {
-                    flag = true;
-                    documents = docs[i]
-                }
-            }
-            if (!flag) {
+        collectionPages.find({ _id: ObjectID(id) }).toArray((err, docs) => {
+            if (docs.length === 0) {
                 collectionError.find({}).toArray((err, doc) => {
                     res.send(doc[0])
                 });
             } else {
-                res.send(documents)
+                res.send(docs[0])
             }
         })
     });
 
-    app.get('/api/edit/:id', function(req, res) {
+    app.get('/api/user/:id', function(req, res) {
         const id = req.params.id;
-        collectionPages.find({}).toArray((err, docs) => {
-            let flag = false;
-            let documents = {};
+        collectionUsers.find({ _id: ObjectID(id)}).toArray((err, doc) => {
+            res.send(doc[0])
+        });
 
-            for (var i in docs) {
-                const idDocs = docs[i]._id
-                if (id.toString() === idDocs.toString()) {
-                    flag = true;
-                    documents = docs[i]
-                }
-            }
-
-            if (!flag) {
-                collectionError.find({}).toArray((err, doc) => {
-                    res.send(doc[0])
-                });
-            } else {
-                res.send(documents)
-            }
-        })
     });
 
     app.get('/api/tags', function(req, res) {
@@ -149,6 +137,27 @@ client.connect(function(err) {
             res.send(docs)
         });
     });
+
+    app.get('/api/imgs/:name', function(req, res) {
+        const name = req.params.name
+        const folder = __dirname + '/public/'
+        fs.readdir(folder, (err, files) => {
+            let isHave = false
+            for (var i in files) {
+                const file = files[i]
+                if (file === name) {
+                    isHave = true
+                }
+            }
+            if (isHave) {
+                res.set('Content-Type', 'image/png')
+                res.sendFile(__dirname + '/public/' + name)
+            } else {
+                res.send('404')
+            }
+        });
+    });
+
 
 
     //POST
@@ -170,10 +179,11 @@ client.connect(function(err) {
                     const userData = {
                         email: req.body.email,
                         login: req.body.login,
-                        pass: req.body.pass1
+                        pass: req.body.pass1,
+                        photo: 'defualt.png'
                     }
                     collectionUsers.insertOne(userData, (err, result) => {
-                            const id = result.ops._id
+                            const id = result.ops[0]._id
                             stat.status = 200
                             stat.id = id
                             res.send(JSON.stringify(stat))
@@ -193,14 +203,14 @@ client.connect(function(err) {
 
 
     app.post('/api/login', function(req, res) {
-        const username = req.body.login
+        const email = req.body.email
         const password = req.body.pass
         let isEqual = false
         let stat = {}
-        collectionUsers.find({login: username}).toArray((err, docs) => {
+        collectionUsers.find({email: email}).toArray((err, docs) => {
             if (docs.length === 0) {
                 stat.status = 400
-                stat.wrong = 'username'
+                stat.wrong = 'email'
                 res.send(JSON.stringify(stat))
             } else {
                 if (password === docs[0].pass) {
@@ -222,8 +232,57 @@ client.connect(function(err) {
     });
 
 
-    app.post('/api/edit', function(req, res) {
-        collectionPages.updateOne({ _id : ObjectID(req.body._id) }, { $set: { title : req.body.title, body : req.body.body, tags : req.body.tags } })
+    app.post('/api/edit/photo/:id', function(req, res) {
+        const id = req.params.id;
+        upload(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                return res.status(500).json(err)
+            } else if (err) {
+                return res.status(500).json(err)
+            }
+            console.log();
+            collectionUsers.find({ _id : ObjectID(id) }).toArray((err, docs) => {
+                const userPhoto = docs[0].photo
+                if (userPhoto === 'defualt.png') {
+                    console.log(req.file.filename);
+                    collectionUsers.updateOne({ _id : ObjectID(id) }, {
+                        $set: {
+                            photo: req.file.filename
+                        }
+                    })
+                } else {
+                    collectionUsers.updateOne({ _id : ObjectID(id) }, {
+                        $set: {
+                            photo: req.file.filename
+                        }
+                    })
+                    fs.unlink(__dirname + '/public/' + userPhoto)
+                }
+            })
+            return res.status(200).send(req.file)
+        })
+    });
+
+
+    app.post('/api/edit/:id', function(req, res) {
+        const id = req.params.id;
+        if (id === 'post') {
+            collectionPages.updateOne({ _id : ObjectID(req.body._id) }, {
+                $set: {
+                    title : req.body.title,
+                    body : req.body.body,
+                    tags : req.body.tags
+                }
+            })
+        } else if (id === 'user') {
+            collectionUsers.updateOne({ _id : ObjectID(req.body._id) }, {
+                $set: {
+                    login : req.body.login,
+                    email : req.body.email,
+                    pass : req.body.pass
+                }
+            })
+        }
     });
 
 

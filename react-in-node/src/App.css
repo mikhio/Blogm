@@ -73,6 +73,10 @@ html, body, #root {
     box-shadow: none;
 }
 
+input {
+    outline: none;
+}
+
 
 
 /* Components */
@@ -181,6 +185,21 @@ html, body, #root {
     color: #777;
 }
 
+.user_logo {
+    background-position: center;
+    border: 5px solid #f8f9fa;
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    margin-left: 15px;
+    margin-right: 5px
+}
+
+.user_logo:hover {
+	background-color: #ddd;
+    border-color: #ddd;
+}
+
 
 /* Tags */
 .Tags {
@@ -261,4 +280,102 @@ html, body, #root {
 
 .login-errors-and-button {
     display: flex;
+}
+
+
+/* UserInfo */
+.UserInfo {
+    overflow-y: hidden;
+}
+
+.user-info {
+    display: flex;
+    width: 900px;
+    background-color: #f8f9fa;
+    margin: 0 auto;
+    margin-top: 90px;
+}
+
+.user-info-content {
+    margin-left: 100px;
+    flex-grow: 1;
+}
+
+.user-photo {
+    width: 300px;
+    height: 300px;
+    background-color: gray;
+}
+
+.user-edit {
+    margin-top: 10px;
+    width: 300px;
+}
+
+.user-edit-photo {
+    margin-top: 10px;
+    width: 300px;
+}
+
+.user-exit {
+    margin-top: 10px;
+    width: 300px;
+}
+
+.user-info-profile {
+    display: flex;
+}
+
+.users-val {
+    margin-left: 40px;
+}
+
+.user-input {
+    background-color: rgba(250, 250, 250, 0);
+    border: 0;
+    border-bottom: 1px solid gray;
+    width: 280px;
+}
+
+.user-input:focus {
+    outline: none;
+    border-bottom: 1px solid #017bff;
+}
+
+.user-input:focus::-webkit-input-placeholder {
+  color: #017bff;
+}
+
+.user-photo-and-btns {
+}
+
+.user-photo-input {
+    background-color: rgba(255, 255, 255, 0);
+    padding-top: 3px;
+    padding-right: 90px;
+    border: 1px solid #007bff;
+    color: #007bff;
+    border-radius: .25rem;
+    height: 38px;
+    transition: background-color 0.18s linear 0s;
+    width: 300px;
+    margin-top: 10px;
+}
+
+.user-photo-input:hover {
+    background-color: #007bff;
+    color: white;
+    border-radius: .25rem;
+    height: 38px;
+    cursor: pointer;
+    transition: background-color 0.18s linear 0s;
+}
+
+.user-photo-img {
+    width: 100%;
+    height: 100%;
+}
+
+.user-photo-input::-webkit-file-upload-button {
+    visibility: hidden;
 }

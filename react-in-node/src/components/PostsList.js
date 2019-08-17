@@ -19,14 +19,14 @@ class PostsList extends Component {
         const p = window.location.search
         if (p !== '') {
             if (p.split('=')[0] === '?q') {
-                fetch('http://localhost:5000/api/pages' + p)
+                fetch('http://192.168.1.162:5000/api/pages' + p)
                     .then(response => response.json())
                     .then(data => {
                         this.setState({
                             cards: data
                         })
                     })
-                fetch('http://localhost:5000/api/pages' + p + '&pages=all')
+                fetch('http://192.168.1.162:5000/api/pages' + p + '&pages=all')
                     .then(response => response.json())
                     .then(data => {
                         this.setState({
@@ -34,14 +34,14 @@ class PostsList extends Component {
                         })
                     })
             } else {
-                fetch('http://localhost:5000/api/pages' + p)
+                fetch('http://192.168.1.162:5000/api/pages' + p)
                     .then(response => response.json())
                     .then(data => {
                         this.setState({
                             cards: data
                         })
                     })
-                fetch('http://localhost:5000/api/pages?p=all')
+                fetch('http://192.168.1.162:5000/api/pages?p=all')
                     .then(response => response.json())
                     .then(data => {
                         this.setState({
@@ -50,14 +50,14 @@ class PostsList extends Component {
                     })
             }
         } else {
-            fetch('http://localhost:5000/api/pages?p=1')
+            fetch('http://192.168.1.162:5000/api/pages?p=1')
                 .then(response => response.json())
                 .then(data => {
                     this.setState({
                         cards: data
                     })
                 })
-            fetch('http://localhost:5000/api/pages?p=all')
+            fetch('http://192.168.1.162:5000/api/pages?p=all')
                 .then(response => response.json())
                 .then(data => {
                     this.setState({
@@ -78,7 +78,7 @@ class PostsList extends Component {
 
         } else if (this.state.cards.length === 0 || this.state.arrData.length === 0) {
             return (
-                <div className="App">
+                <div className="PostsList">
                     <Header />
                     <h1 className="no-posts">We haven't got posts!</h1>
                 </div>

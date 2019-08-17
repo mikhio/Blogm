@@ -23,7 +23,7 @@ const handleDelete = id => () => {
         delete: id,
     }
     var json = JSON.stringify(obj)
-    fetch("http://localhost:5000/api/delete",
+    fetch("http://192.168.1.162:5000/api/delete",
     {
         method: "POST",
         headers: {
@@ -36,7 +36,7 @@ const handleDelete = id => () => {
 }
 
 const handleEdit = id => () => {
-    window.location.href = '/edit/' + id
+    window.location.href = '/edit/post/' + id
 }
 
 class Post extends Component {

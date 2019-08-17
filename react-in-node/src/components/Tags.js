@@ -10,7 +10,7 @@ class Tags extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:5000/api/tags")
+        fetch("http://192.168.1.162:5000/api/tags")
             .then(response => response.json())
             .then(tags => {
                 const check = []

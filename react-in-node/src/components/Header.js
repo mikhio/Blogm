@@ -4,12 +4,18 @@ import { Navbar } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
+import UserInfo from './UserInfo.js'
+import getCookieValue from '../funcs.js';
 
 class Header extends Component {
     state = {
         title: '',
         posts: 0,
-        tags: 0
+        tags: 0,
+        user: {},
+        bgimg: {
+            background: 'gray'
+        }
     }
 
     handleChange = (event) => {
@@ -23,9 +29,13 @@ class Header extends Component {
     }
 
     handleExit = () => {
-        document.cookie = 'authoriz=on; max-age=0'
-        document.cookie = 'id=0; max-age=0'
+        document.cookie = 'authoriz=on; max-age=0; path=/'
+        document.cookie = 'id=0; max-age=0; path=/'
         window.location.href = '/'
+    }
+
+    handleInfo = () => {
+        window.location.href = '/user'
     }
 
     searchKey = (event) => {
@@ -37,14 +47,14 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:5000/api/pages?p=all')
+        fetch('http://192.168.1.162:5000/api/pages?p=all')
             .then(response => response.json())
             .then(data => {
                 this.setState({
                     posts: data.length
                 })
             })
-        fetch("http://localhost:5000/api/tags")
+        fetch("http://192.168.1.162:5000/api/tags")
             .then(response => response.json())
             .then(tags => {
                 const check = []
@@ -68,6 +78,17 @@ class Header extends Component {
                     tags: check.length
                 })
             })
+            const userId = getCookieValue('id')
+            fetch('http://192.168.1.162:5000/api/user/' + userId)
+                .then(response => response.json())
+                .then(data => {
+                    const prevBgimg = {...this.state.bgimg}
+                    prevBgimg.background = `url(http://localhost:5000/api/imgs/${data.photo})`
+                    this.setState({
+                        user: data,
+                        bgimg: prevBgimg
+                    })
+                })
     }
 
     render() {
@@ -94,6 +115,12 @@ class Header extends Component {
                             Search
                         </Button>
                     </Form>
+                    <button
+                        className="user_logo btn"
+                        onClick={this.handleInfo}
+                        style={this.state.bgimg}>
+                    </button>
+                    <div>{this.state.user.login ? this.state.user.login.split(' ')[0] : null}</div>
                     <Button
                         variant="outline-success ml-3"
                         onClick={this.handleExit}>

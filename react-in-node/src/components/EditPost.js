@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import Header from './Header.js';
 
-class Edit extends Component {
+class EditPost extends Component {
     constructor(props) {
         super(props);
 
@@ -34,7 +34,7 @@ class Edit extends Component {
 
 
     handleSubmit = () => {
-        fetch("http://localhost:5000/api/edit",
+        fetch("http://192.168.1.162:5000/api/edit/post",
         {
             method: "POST",
             headers: {
@@ -42,14 +42,14 @@ class Edit extends Component {
             },
             body: JSON.stringify(this.state.data)
         })
-        window.location.href = '/?p=1'
+            .then(res => window.location.href = '/?p=1')
     }
 
     componentDidMount() {
         const url = window.location.href
         const arr = url.split('/')
         const id = arr[arr.length - 1]
-        fetch('http://localhost:5000/api/edit/' + id)
+        fetch('http://192.168.1.162:5000/api/page/' + id)
             .then(response => response.json())
             .then(data => {
                 this.setState({ data })
@@ -77,7 +77,7 @@ class Edit extends Component {
         }
 
         return (
-            <div className="Edit">
+            <div className="EditPost">
                 <Header />
                 <div className="edit-form">
                     <Form.Control
@@ -119,4 +119,4 @@ class Edit extends Component {
 }
 
 
-export default Edit;
+export default EditPost;

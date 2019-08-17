@@ -15,7 +15,7 @@ class PostDetail extends Component {
         const url = window.location.href
         const arr = url.split('/')
         const id = arr[arr.length - 1]
-        fetch('http://localhost:5000/api/page/' +  id)
+        fetch('http://192.168.1.162:5000/api/page/' +  id)
             .then(response => response.json())
             .then(data => {
                 this.setState({ data })

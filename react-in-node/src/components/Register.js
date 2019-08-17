@@ -48,7 +48,7 @@ class Register extends Component {
     }
 
     handleSubmit = () => {
-        fetch("http://localhost:5000/api/register",
+        fetch("http://192.168.1.162:5000/api/register",
         {
             method: "POST",
             headers: {
@@ -96,7 +96,7 @@ class Register extends Component {
                         type="text"
                         name="email"
                         className="email-field"
-                        placeholder="Enter email (It's need if you forgot password)"
+                        placeholder="Enter email"
                         onChange={this.handeleChangeEmail}
                     />
                     <Form.Control

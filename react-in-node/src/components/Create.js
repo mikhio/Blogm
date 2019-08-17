@@ -65,7 +65,7 @@ class Create extends Component {
         this.setState({
             data: prevData
         }, () => {
-            fetch("http://localhost:5000/api/add",
+            fetch("http://192.168.1.162:5000/api/add",
             {
                 method: "POST",
                 headers: {
@@ -80,12 +80,12 @@ class Create extends Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:5000/api/pagesId')
+        fetch('http://192.168.1.162:5000/api/pagesId')
             .then(response => response.json())
             .then(data => {
                 this.setState({files: data})
             })
-        fetch('http://localhost:5000/api/tags')
+        fetch('http://192.168.1.162:5000/api/tags')
             .then(response => response.json())
             .then(tags => {
                 this.setState({tags: tags})

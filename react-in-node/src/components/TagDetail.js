@@ -11,7 +11,7 @@ class TagDetail extends Component {
 
     componentDidMount() {
         const nameTag = window.location.href.split('/')[window.location.href.split('/').length - 1]
-        fetch("http://localhost:5000/api/tag/" + nameTag)
+        fetch("http://192.168.1.162:5000/api/tag/" + nameTag)
             .then(response => response.json())
             .then(cards => {
                 this.setState({

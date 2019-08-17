@@ -6,16 +6,16 @@ import { Button } from 'react-bootstrap';
 class LogIn extends Component {
     state = {
         user: {
-            login: '',
+            email: '',
             pass: '',
         },
         isLogin: true,
         isPass: true
     }
 
-    handeleChangeLogin = (event) => {
+    handeleChangeEmail = (event) => {
         var prevUser = {...this.state.user};
-        prevUser.login = event.target.value
+        prevUser.email = event.target.value
         this.setState({
             user: prevUser
         })
@@ -30,7 +30,7 @@ class LogIn extends Component {
     }
 
     handleSubmit = () => {
-        fetch("http://localhost:5000/api/login",
+        fetch("http://192.168.1.162:5000/api/login",
         {
             method: "POST",
             headers: {
@@ -51,7 +51,7 @@ class LogIn extends Component {
                             isPass: false,
                             isLogin: true
                         })
-                    } else if (stat.wrong ===  'username') {
+                    } else if (stat.wrong ===  'email') {
                         this.setState({
                             isLogin: false,
                             isPass: true
@@ -76,10 +76,10 @@ class LogIn extends Component {
                 <div className="login-content">
                     <Form.Control
                         type="text"
-                        name="login"
+                        name="email"
                         className="login-field"
-                        placeholder="Enter username"
-                        onChange={this.handeleChangeLogin}
+                        placeholder="Enter email"
+                        onChange={this.handeleChangeEmail}
                     />
                     <Form.Control
                         type="password"
@@ -96,7 +96,7 @@ class LogIn extends Component {
                             disabled={!isCanLogin}>
                             Submit
                         </Button>
-                        <div className="login-errors">{ !this.state.isLogin ? "We don’t have that username" : null}</div>
+                        <div className="login-errors">{ !this.state.isLogin ? "We don’t have that email" : null}</div>
                         <div className="login-errors">{!this.state.isPass ? "You enter wrong password" : null}</div>
                     </div>
                 </div>
